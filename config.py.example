@@ -1,0 +1,99 @@
+
+jira_auth = ('your.username', 'your.password')
+jira_url = 'https://jira.yourdomain.com'
+
+Show = -1
+Discard = -2
+Same = -3
+
+# map old to new
+maps = dict(
+  projects={
+    "Old Name": "New Name"
+  },
+   
+  types={
+    "Defect": "Bug",
+    "Task": "Task",
+    "Improvement": "Want",
+    "Sub-task": "Sub-task"
+  },
+
+  statuses={
+    "In Development": "Selected for Development",
+    "Open": "Backlog"
+  },
+
+  resolutions={
+    "Unresolved": ""
+  },
+
+  priority={
+    "1 - Critical": "Emergency",
+    "2": "Normal",
+    "3": "Normal",
+    "4": "Normal",
+    "5": "Normal",
+    "6": "Normal",
+    "7": "Normal",
+  },
+
+  component2proj={
+    "Old": "New",
+  },
+
+  components={
+    "Old": "New"
+  },
+  issues={
+    'PRJ-1050': Discard, # actions to do on specific ones
+  }, 
+)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

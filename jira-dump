@@ -1,0 +1,30 @@
+#!/usr/bin/env python3
+
+import os
+import sys
+from jira import JIRA
+
+# put your info in config.py
+import config
+
+################################################################################
+print("Connecting to jira: " + config.jira_url)
+jira = JIRA(config.jira_url, auth=config.jira_auth)
+
+def log_issue(issue):
+    print("{}".format(issue.key))
+    with open("outlog.stream", "a") as outfile:
+        outfile.write(json.dumps(issue.raw))
+        outfile.write("\n")
+
+def dump_project(project):
+    count = 0
+    print("---- {}".format(project))
+    # jira SDK is ignoring maxResults > 1000, grrr
+    for issue in jira.search_issues("project = \"{}\" AND status != Closed AND updated > {}".format(project, sys.argv[1]), maxResults=1000):
+        log_issue(issue)
+        count = count + 1
+    print("=> {} {} issues TOTAL\n".format(project, count))
+    
+for project in jira.projects():
+    dump_project(project)
