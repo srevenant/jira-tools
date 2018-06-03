@@ -2,6 +2,7 @@
 jira_auth = ('your.username', 'your.password')
 jira_url = 'https://jira.yourdomain.com'
 
+# statics for quick comparison, ignore
 Show = -1
 Discard = -2
 Same = -3

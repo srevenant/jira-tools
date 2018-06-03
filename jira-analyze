@@ -1,0 +1,63 @@
+#!/usr/bin/env python3
+"""
+
+Run jira-dump to export projects and issues from jira into a dump file, afterwards run this analyze to find things
+
+"""
+
+import os
+import sys
+import re
+import json
+import sys
+import config
+import dictlib
+
+maps = dictlib.Obj(config.maps)
+
+components = set()
+
+################################################################################
+import argparse
+parser = argparse.ArgumentParser()
+parser.add_argument("dumpfile")
+args = parser.parse_args()
+
+################################################################################
+summary = dictlib.Obj({
+      "components": {},
+      "labels": {},
+      "projects": {},
+      "issuesbyStatus": {},
+      "issuesby": {},
+    })
+
+def increment(sub, key):
+    if key in summary[sub]:
+        summary[sub][key] += 1
+    else:
+        summary[sub][key] = 1
+
+def process(line):
+    data = json.loads(line)
+    fields = data['fields']
+
+    for cmp in fields['components']:
+        increment('components', cmp['name'])
+
+    for label in fields['labels']:
+        increment('labels', label)
+
+def print_sorted(mydict):
+    for key, value in sorted(mydict.items(), key=lambda item: (item[1], item[0])):
+        print("{:5} {}".format(value, key))
+
+with open(args.dumpfile) as infile:
+    for line in infile:
+        process(line)
+
+print("\n----- Components")
+print_sorted(summary.components)
+
+print("\n----- Labels")
+print_sorted(summary.labels)
